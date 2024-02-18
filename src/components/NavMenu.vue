@@ -26,7 +26,7 @@ nav {
 </style> -->
 
 <script setup>
-import { useAuth } from '../composables/useAuth'
+import { useAuth } from '../compasables/useAuth'
 const { isAuthenticated, logout, user} = useAuth()
 
 </script>
