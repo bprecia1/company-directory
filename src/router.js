@@ -5,6 +5,9 @@ import CardDetails from './views/CardDetails.vue'
 import LoginPage from './views/LoginPage.vue'
 import SettingsPage from './views/SettingsPage.vue'
 
+import { useAuth } from './composables/useAuth'
+const {isAuthenticated} = useAuth()
+
 const routes = [
   { path: '/', name: 'Home', component: HomePage },
   { path: '/other', name: 'Other', component: () => import('@/views/OtherPage.vue') },
@@ -16,6 +19,15 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
+})
+
+//navigation guard
+router.beforeEach((to, _, next) => {
+  if (to.meta.requiresAuth && !isAuthenticated.value) {
+    next({name: 'LoginPage', query: {redirect: to.fullPath}})
+  } else {
+    next()
+  }
 })
 
 export default router
